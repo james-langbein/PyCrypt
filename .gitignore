@@ -1,0 +1,8 @@
+.idea 
+__pycache__ 
+builds 
+icons
+journal 
+notes 
+venv
+*.ico
