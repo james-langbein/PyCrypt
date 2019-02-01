@@ -80,3 +80,24 @@ class Decryptor:
 
         return res5
 
+    @staticmethod
+    def decrypt3(message, seed, rounds=5):
+        d = Decryptor()
+
+        seeds = helpers.seed_generator(str(seed), n=2)
+        x1 = helpers.seed_generator(seeds[0], n=2)
+        x2 = helpers.seed_generator(seeds[1], n=rounds)
+
+        """Decrypt rounds"""
+        x2_reversed = x2[::-1]
+        r_res = message
+        for i in range(rounds):
+            r_seed = helpers.seed_generator(x2_reversed[i], n=3)
+            r_res = d.de_shuffle(string=r_res, seed=r_seed[2])
+            r_res = d.de_shift(string=r_res, list_seed=r_seed[0], msg_seed=r_seed[1])
+
+        res = d.de_pad(r_res)
+        res2 = d.de_shift(res, x1[0], x1[1])
+        res3 = d.de_split(res2)
+
+        return res3
