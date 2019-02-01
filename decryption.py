@@ -6,6 +6,10 @@ import random
 class Decryptor:
 
     @staticmethod
+    def de_split(string):
+        return string.replace(' ' * 5, '')
+
+    @staticmethod
     def de_shuffle(string, seed):
         stringlist = list(string)
 
@@ -55,7 +59,7 @@ class Decryptor:
         return remaining
 
     @staticmethod
-    def decrypt(message, seed):
+    def decrypt1(message, seed):
         """Decrypt a given message string with a given password string (seed)."""
         x = helpers.seed_generator(seed, 3)
         res = Decryptor.de_shuffle(message, x[2])
@@ -63,4 +67,16 @@ class Decryptor:
         res3 = Decryptor.de_pad(res2)
 
         return res3
+
+    @staticmethod
+    def decrypt2(message, seed):
+        """Decrypt a given message string with a given password string (seed)."""
+        x = helpers.seed_generator(seed, n=5)
+        res = Decryptor.de_shuffle(message, x[4])
+        res2 = Decryptor.de_shift(res, x[2], x[3])
+        res3 = Decryptor.de_pad(res2)
+        res4 = Decryptor.de_shift(res3, x[0], x[1])
+        res5 = Decryptor.de_split(res4)
+
+        return res5
 
