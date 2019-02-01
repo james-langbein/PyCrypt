@@ -77,7 +77,7 @@ def main_event_loop():
             if values['plaintext'] != '\n' and values['encr_seed'] != '':
                 msg = values['plaintext'].strip('\n')
                 seed = values['encr_seed']
-                encr_txt = encryptor.encrypt(msg, seed)
+                encr_txt = encryptor.encrypt3(msg, seed)
                 print(encr_txt)
             else:
                 if values['plaintext'] == '\n':
@@ -96,7 +96,7 @@ def main_event_loop():
                 txt = values['ciphertext'].strip('\n')
                 print(txt)
                 seed = values['decr_seed']
-                decr_txt = decryptor.decrypt(txt, seed)
+                decr_txt = decryptor.decrypt3(txt, seed)
                 print(decr_txt)
             else:
                 if values['ciphertext'] == '\n':
@@ -116,7 +116,7 @@ def main_event_loop():
             txt = values['plaintext'].strip('\n')
             seed = values['encr_seed']
             print('Encrypting...')
-            encr_txt = encryptor.encrypt(txt, seed)
+            encr_txt = encryptor.encrypt3(txt, seed)
             current_date = time.strftime("%d%m%Y")
             current_time = time.strftime("%I%M%S")
             date_and_time = current_date + '_' + current_time
@@ -131,7 +131,7 @@ def main_event_loop():
                 pswrd = window.FindElement(text_elements[2]).Get()
                 with open(encr_message, 'r') as file:
                     x = file.read()
-                decr_txt = decryptor.decrypt(x, pswrd)
+                decr_txt = decryptor.decrypt3(x, pswrd)
                 print(decr_txt)
             else:
                 print('You need to provide a password in the decryption password field.')
