@@ -113,3 +113,24 @@ class Encryptor:
         res5 = Encryptor.char_shuffle(string=res4, seed=x[4])
 
         return res5
+
+    @staticmethod
+    def encrypt3(message, seed, rounds=5):
+        """Encrypt with splitting, shifting and padding; plus multiple rounds of shuffling and shifting."""
+        e = Encryptor()
+
+        seeds = helpers.seed_generator(str(seed), n=2)
+
+        x1 = helpers.seed_generator(seeds[0], n=2)
+        res = e.group_split(message)
+        res2 = e.char_shift(res, x1[0], x1[1])
+        res3 = e.end_pad(res2, pad_size=1000)
+
+        x2 = helpers.seed_generator(seeds[1], n=rounds)
+        r_res = res3
+        for i in range(rounds):
+            r_seed = helpers.seed_generator(x2[i], n=3)
+            r_res = e.char_shift(string=r_res, list_seed=r_seed[0], msg_seed=r_seed[1])
+            r_res = e.char_shuffle(string=r_res, seed=r_seed[2])
+
+        return r_res
