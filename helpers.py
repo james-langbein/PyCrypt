@@ -65,3 +65,17 @@ def seed_generator(inp, n):
 
 def rand_char():
     return secrets.choice(CHARS_LIST)
+
+
+def delimiter(delim_seed, delim_size=10):
+    numpy.random.seed(delim_seed)
+
+    nums = []
+    for k in range(delim_size):
+        nums.append(numpy.random.randint(len(CHARS_LIST)))
+
+    chars = []
+    for j in nums:
+        chars.append(CHARS_LIST[j])
+
+    return ''.join(chars)
