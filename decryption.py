@@ -102,3 +102,30 @@ class Decryptor:
         res3 = d.de_split(res2)
 
         return res3
+
+    """Add functionality for non-standard round reversal."""
+    @staticmethod
+    def decrypt4(message, seed, max_rounds=42):
+        d = Decryptor()
+
+        seeds = helpers.seed_generator(str(seed), n=2)
+        x1 = helpers.seed_generator(seeds[0], n=3)
+        x2 = helpers.seed_generator(seeds[1], n=max_rounds)
+
+        """Decrypt max_rounds"""
+        """Add functionality for checking for delim string"""
+        delimiter = helpers.delimiter(x1[2])
+        r_res = message
+        for i in range(max_rounds):
+            r_seed = helpers.seed_generator(x2[i], n=3)
+            r_res = d.de_shuffle(string=r_res, seed=r_seed[2])
+            r_res = d.de_shift(string=r_res, list_seed=r_seed[0], msg_seed=r_seed[1])
+            if delimiter in r_res:
+                break
+
+        """Decrypt initial obfuscation"""
+        res = d.de_pad(r_res, delim_seed=x1[2])
+        res2 = d.de_shift(res, x1[0], x1[1])
+        res3 = d.de_split(res2)
+
+        return res3
