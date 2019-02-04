@@ -6,6 +6,8 @@ It uses a shared private key, hence a secure back-channel is required for commun
 
 As far as I can see, this algorithm is reasonably secure, provided the key is long enough.
 
+Also, this algorithm is blazingly fast, completing encryption and decryption in a few micro-seconds.
+
 ### Encryption
  1. Split the string into random length parts, delimited by sets of 5 spaces.
  2. Variation on ROT, changing 'space' characters as well.
