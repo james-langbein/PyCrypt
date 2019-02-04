@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import encryption
 import decryption
 import time
+from copy import deepcopy
 
 
 def main_event_loop():
@@ -60,9 +61,15 @@ def main_event_loop():
     encryptor = encryption.Encryptor()
     decryptor = decryption.Decryptor()
 
+    full_path = ''
     for i in range(1, 9999999999999999):
 
         button, values = window.ReadNonBlocking()
+
+        if '/' in window.Element('file').Get():
+            file_text = window.Element('file').Get()
+            full_path = deepcopy(file_text)
+            window.Element('file').Update(file_text.split(sep='/')[-1].split(sep='.')[0])
 
         if button == button_elements[0]:  # 'CLEAR ALL FIELDS'
             for element in text_elements:
@@ -127,9 +134,9 @@ def main_event_loop():
 
         elif button == button_elements[11]:  # 'DECRYPT FROM FILE'
             if window.FindElement(text_elements[2]).Get() != '':
-                encr_message = window.FindElement(text_elements[5]).Get()
+                encr_message_file = full_path
                 pswrd = window.FindElement(text_elements[2]).Get()
-                with open(encr_message, 'r') as file:
+                with open(encr_message_file, 'r') as file:
                     x = file.read()
                 decr_txt = decryptor.decrypt4(x, pswrd)
                 print(decr_txt)
@@ -139,8 +146,6 @@ def main_event_loop():
         if values is None or button == 'Exit':
             break
 
-        file_text = window.Element('file').Get()
-        window.Element('file').Update(file_text.split(sep='/')[-1].split(sep='.')[0])
         time.sleep(.01)
 
     else:
