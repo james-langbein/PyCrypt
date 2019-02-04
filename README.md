@@ -18,7 +18,8 @@ Also, this algorithm is blazingly fast, completing encryption and decryption in 
 
 ### Decryption
 Reverse of the above.  
-The number of rounds in encryption does not need to be known.
+The number of rounds in encryption does not need to be known.  
+There is, very roughly, a 1 in 96 quintillion chance that decryption will fail, however this is due to the design and is incredibly unlikely to ever happen.
 
 
 **Read through the code for more details.**
