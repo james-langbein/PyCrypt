@@ -68,6 +68,9 @@ def rand_char():
 
 
 def delimiter(delim_seed, delim_size=10):
+    """There is a chance that this delimiter will be generated randomly in another part of the string, as part of the
+    encryption rounds, however the probability is only 1 in 48.398 quintillion, for a delimiter of 10 characters. It is
+    highly unlikely it will ever happen."""
     numpy.random.seed(delim_seed)
 
     nums = []
