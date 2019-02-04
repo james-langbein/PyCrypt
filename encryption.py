@@ -1,6 +1,7 @@
 import helpers
 import numpy
 import random
+import secrets
 
 
 class Encryptor:
@@ -13,7 +14,6 @@ class Encryptor:
         The string result from this function can be shuffled/shifted to obscure the result."""
 
         str_list = list(string)
-        l = len(str_list)
         """generate numbers between 2-4 and append 5 spaces after that number of characters after the last set."""
         start = 0
         loop = 0
@@ -135,9 +135,8 @@ class Encryptor:
 
         return r_res
 
-    """Add functionality for non-standard rounds."""
     @staticmethod
-    def encrypt4(message, seed, rounds=random.randint(5, 40)):  #
+    def encrypt4(message, seed, rounds=secrets.choice(range(5, 40))):
         """Encrypt with splitting, shifting and padding; plus multiple rounds of shuffling and shifting."""
         e = Encryptor()
 
