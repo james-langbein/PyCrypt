@@ -27,20 +27,20 @@ class Encryptor:
         return ''.join(str_list)
 
     @staticmethod
-    def end_pad(string, pad_size, delim_seed, delim_size=10):
+    def end_pad(string, pad_size):
         """Pads the message with random characters.
         The result is the message string, followed by 5 spaces, followed by the random characters.
         The length of the full result will equal the given pad_size, unless the given pad is shorter than the given
         string, in which case it will equal the next multiple of 20 larger than the length of the string."""
-        pad_length = (pad_size - delim_size) - (len(string) % pad_size)
-        delim = helpers.delimiter(delim_seed, delim_size)
+        pad_length = (pad_size - 5) - (len(string) % pad_size)
+        init_pad = ' ' * 5
 
         pad = []
         for i in range(pad_length):
             pad.append(helpers.rand_char())
 
         pad_string = ''.join(pad)
-        string += delim
+        string += init_pad
         string += pad_string
 
         return string
@@ -89,10 +89,10 @@ class Encryptor:
         each full encryption result.
         This would present an opening to cryptographers if the same message was sent too many times with their
         knowledge. But only to the encrypted characters."""
-        x = helpers.seed_generator(str(seed), n=4)
-        res = Encryptor.end_pad(message, 1000, x[0])
-        res2 = Encryptor.char_shift(string=res, list_seed=x[1], msg_seed=x[2])
-        res3 = Encryptor.char_shuffle(string=res2, seed=x[3])
+        x = helpers.seed_generator(str(seed), n=3)
+        res = Encryptor.end_pad(message, pad_size=1000)
+        res2 = Encryptor.char_shift(string=res, list_seed=x[0], msg_seed=x[1])
+        res3 = Encryptor.char_shuffle(string=res2, seed=x[2])
 
         return res3
 
@@ -105,12 +105,12 @@ class Encryptor:
         each full encryption result.
         This would present an opening to cryptographers if the same message was sent too many times with their
         knowledge. But only to the encrypted characters."""
-        x = helpers.seed_generator(str(seed), n=6)
+        x = helpers.seed_generator(str(seed), n=5)
         res = Encryptor.group_split(message)
         res2 = Encryptor.char_shift(res, x[0], x[1])
-        res3 = Encryptor.end_pad(res2, pad_size=1000, delim_seed=x[2])
-        res4 = Encryptor.char_shift(string=res3, list_seed=x[3], msg_seed=x[4])
-        res5 = Encryptor.char_shuffle(string=res4, seed=x[5])
+        res3 = Encryptor.end_pad(res2, pad_size=1000)
+        res4 = Encryptor.char_shift(string=res3, list_seed=x[2], msg_seed=x[3])
+        res5 = Encryptor.char_shuffle(string=res4, seed=x[4])
 
         return res5
 
@@ -121,10 +121,10 @@ class Encryptor:
 
         seeds = helpers.seed_generator(str(seed), n=2)
 
-        x1 = helpers.seed_generator(seeds[0], n=3)
+        x1 = helpers.seed_generator(seeds[0], n=2)
         res = e.group_split(message)
         res2 = e.char_shift(res, x1[0], x1[1])
-        res3 = e.end_pad(res2, pad_size=1000, delim_seed=x1[2])
+        res3 = e.end_pad(res2, pad_size=1000)
 
         x2 = helpers.seed_generator(seeds[1], n=rounds)
         r_res = res3
